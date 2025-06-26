@@ -1,0 +1,13 @@
+---
+import { marked } from 'marked';
+const { content } = Astro.props;
+
+// Преобразуем ![[image.jpg]] → <img src="/content/image.jpg" ...>
+const processed = content.replace(/\!\[\[(.+?)\]\]/g, (_, filename) => {
+  return `<img src="/content/${filename}" alt="${filename}" />`;
+});
+
+const html = marked.parse(processed);
+---
+
+<div class="markdown-content" set:html={html} />

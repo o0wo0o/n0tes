@@ -1,99 +1,135 @@
 body {
-    margin: 0;
-    background-color: #000;
-    color: #00ff00;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-    line-height: 1.5;
-    text-shadow: 0 0 3px #00ff00;
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.ascii-art {
+  font-size: 6px;
+  line-height: 6px;
+  white-space: pre-wrap;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.cursor {
+  color: red;
+  animation: blink 0.7s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
   }
-  
-  .terminal-container {
-    max-width: 800px;
-    margin: 10vh auto;
-    padding: 2rem;
-    background-color: #000;
-    border: 1px solid #00ff00;
-    box-shadow: 0 0 10px #00ff00;
+}
+
+.about-window {
+  position: fixed;
+  top: 150px;
+  right: 250px;
+  width: 360px; /* увеличили ширину */
+  background-color: #000000;
+  border: 1px solid #ff0000;
+  color: #ffffff;
+  font-family: 'Press Start 2P', monospace;
+  user-select: text;
+  z-index: 100;
+  border-radius: 0;
+  cursor: default;
+}
+
+.about-header {
+  background-color: #000000;
+  padding: 10px 14px; /* немного увеличили */
+  font-weight: bold;
+  cursor: move;
+  user-select: none;
+  border-bottom: 1px solid #ff0000;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.about-content {
+  padding: 14px;
+  font-size: 11px;
+  font-family: 'Press Start 2P', monospace;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.about-avatar video {
+  display: block;
+  width: 54px;
+  height: 54px;
+  border: none;
+  outline: none;
+  filter: none;
+}
+
+.link-panel {
+  position: fixed;
+  top: 50%;
+  left: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateY(-50%);
+  z-index: 200;
+}
+
+.nav-link {
+  color: red;
+  border: 1px solid red;
+  padding: 6px 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+  display: inline-block;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+
+/* Нечётные ссылки двигаются влево */
+.nav-link:nth-child(odd) {
+  animation-name: moveLeftRightOdd;
+}
+
+/* Чётные ссылки двигаются вправо */
+.nav-link:nth-child(even) {
+  animation-name: moveLeftRightEven;
+}
+
+@keyframes moveLeftRightOdd {
+  0% {
+    transform: translateX(0);
   }
-  
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    position: relative;
+  100% {
+    transform: translateX(-15px);
   }
-  
-  /* Glitch effect */
-  .glitch {
-    position: relative;
-    color: #00ff00;
+}
+
+@keyframes moveLeftRightEven {
+  0% {
+    transform: translateX(0);
   }
-  
-  .glitch::before,
-  .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    overflow: hidden;
-    clip: rect(0, 900px, 0, 0);
+  100% {
+    transform: translateX(15px);
   }
-  
-  .glitch::before {
-    animation: glitchTop 2s infinite linear alternate-reverse;
-    color: #0ff;
-  }
-  
-  .glitch::after {
-    animation: glitchBottom 2s infinite linear alternate-reverse;
-    color: #f0f;
-  }
-  
-  @keyframes glitchTop {
-    0% {
-      clip: rect(0, 9999px, 0, 0);
-    }
-    50% {
-      clip: rect(0, 9999px, 15px, 0);
-      transform: translate(-2px, -2px);
-    }
-    100% {
-      clip: rect(0, 9999px, 0, 0);
-    }
-  }
-  
-  @keyframes glitchBottom {
-    0% {
-      clip: rect(0, 9999px, 0, 0);
-    }
-    50% {
-      clip: rect(15px, 9999px, 80px, 0);
-      transform: translate(2px, 2px);
-    }
-    100% {
-      clip: rect(0, 9999px, 0, 0);
-    }
-  }
-  
-  a {
-    color: #00ff00;
-    text-decoration: none;
-    position: relative;
-  }
-  
-  a:hover {
-    color: #ff00ff;
-    text-shadow: 0 0 5px #ff00ff;
-  }
-  
-  .link-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 2rem;
-  }
-  
-  .link-list li {
-    margin: 0.5rem 0;
-  }
-  
+}

@@ -1,0 +1,71 @@
+---
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+
+import MarkdownContent from '../../components/MarkdownContent.astro';
+import '../../styles/page.css';
+
+export async function getStaticPaths() {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const contentDir = path.resolve(__dirname, '../../../content');
+
+  const sections = ['writeups', 'notes', 'guides', 'other'];
+  const paths = [];
+
+  for (const section of sections) {
+    const dir = path.join(contentDir, section);
+    const files = await fs.readdir(dir);
+    for (const file of files) {
+      const slug = file.replace(/\.md$/, '');
+      paths.push({
+        params: { section, slug },
+        props: {
+          section,
+          slug,
+          filePath: path.join(dir, file),
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { filePath, slug, section } = Astro.props;
+const markdown = await readFile(filePath, 'utf-8');
+---
+
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{slug}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="notes-layout">
+      <aside class="notes-sidebar">
+        <video class="sidebar-video" autoplay muted loop playsinline>
+          <source src="/1.webm" type="video/webm" />
+        </video>
+        <a href="/" class="nav-link">Index</a>
+        <a href="/notes" class="nav-link">Notes</a>
+        <a href="/guides" class="nav-link">Guides</a>
+        <a href="/writeups" class="nav-link">Writeups</a>
+        <a href="/other" class="nav-link">Other</a>
+      </aside>
+
+      <main class="page-wrapper">
+        <div class="sticky-header">
+          <h1>{section.toUpperCase()} / {slug}</h1>
+        </div>
+        <div class="notes-scroll">
+          <MarkdownContent content={markdown} />
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

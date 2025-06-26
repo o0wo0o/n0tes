@@ -1,21 +1,141 @@
 ---
-import "../styles/global.css";
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import '../styles/global.css';
+
+const asciiPath = path.resolve('./public/ascii.txt');
+const asciiArt = await fs.readFile(asciiPath, 'utf-8');
 ---
 
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <title>Cyber Notes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASCII Typewriter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+      .dark-video {
+        filter: grayscale(100%) brightness(50%);
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    </style>
   </head>
+
   <body>
-    <main class="terminal-container">
-      <h1 class="glitch" data-text="Cyber Notes">Cyber Notes</h1>
-      <p>Welcome to my digital hideout.</p>
-      <ul class="link-list">
-        <li><a href="/htb">HTB Writeups</a></li>
-        <li><a href="/guides">Guides</a></li>
-        <li><a href="/notes">Notes</a></li>
-      </ul>
-    </main>
+    <!-- ASCII ART -->
+    <pre class="ascii-art" id="ascii-art" data-content={JSON.stringify(asciiArt)}></pre>
+
+    <!-- LEFT PANEL LINKS -->
+    <div class="link-panel">
+      <a href="/writeups" class="nav-link">writeups</a>
+      <a href="/notes" class="nav-link">notes</a>
+      <a href="/guides" class="nav-link">guides</a>
+      <a href="/other" class="nav-link">other</a>
+    </div>
+
+    <!-- ABOUT WINDOW (СЛЕВА) -->
+    <div class="about-window" id="about-window" style="top: 100px; left: 500px;">
+      <div class="about-header" id="about-header">
+        <div class="about-avatar">
+          <video src="/avatar.webm" autoplay muted loop playsinline></video>
+        </div>
+        ABOUT
+      </div>
+      <div class="about-content">
+        <pre class="about-content">
+WELCOME!  
+You have reached my workspace.
+
+> Notes  
+> Guides  
+> HTB Writeups  
+> Stuff I'm hacking on
+        </pre>
+      </div>
+    </div>
+
+    <!-- CUSTOM VIDEO WINDOW (СПРАВА) -->
+    <div class="about-window" id="site-window" style="top: 160px; right: 200px; left: auto;">
+      <div class="about-header" id="site-header">Have you seen this before?</div>
+      <div class="about-content" style="padding: 0; height: 340px;">
+        <video
+          src="/eye.webm"
+          autoplay
+          muted
+          loop
+          playsinline
+          class="dark-video"
+        ></video>
+      </div>
+    </div>
+
+    <script type="module">
+      // ASCII typing effect
+      const pre = document.getElementById('ascii-art');
+      const content = JSON.parse(pre.dataset.content);
+      let index = 0;
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      cursor.textContent = '█';
+      pre.appendChild(cursor);
+
+      function type() {
+        const batchSize = 30;
+        let count = 0;
+        while (index < content.length && count < batchSize) {
+          const char = content[index];
+          if (char === '\n') {
+            pre.insertBefore(document.createElement('br'), cursor);
+          } else {
+            const span = document.createElement('span');
+            span.textContent = char;
+            pre.insertBefore(span, cursor);
+          }
+          index++;
+          count++;
+        }
+        if (index < content.length) requestAnimationFrame(type);
+      }
+
+      type();
+
+      // Drag logic
+      function enableDrag(windowEl, headerEl) {
+        let isDragging = false;
+        let startX, startY, origX, origY;
+        headerEl.addEventListener('mousedown', (e) => {
+          isDragging = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          const rect = windowEl.getBoundingClientRect();
+          origX = rect.left;
+          origY = rect.top;
+          document.body.style.userSelect = 'none';
+        });
+        window.addEventListener('mouseup', () => {
+          isDragging = false;
+          document.body.style.userSelect = 'auto';
+        });
+        window.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          windowEl.style.left = origX + dx + 'px';
+          windowEl.style.top = origY + dy + 'px';
+        });
+      }
+
+      enableDrag(
+        document.getElementById('about-window'),
+        document.getElementById('about-header')
+      );
+      enableDrag(
+        document.getElementById('site-window'),
+        document.getElementById('site-header')
+      );
+    </script>
   </body>
 </html>

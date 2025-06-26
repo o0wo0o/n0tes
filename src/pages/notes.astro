@@ -1,0 +1,82 @@
+---
+import "../styles/page.css";
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import matter from 'gray-matter';
+
+const notesDir = path.resolve('./content/notes');
+const files = await fs.readdir(notesDir);
+
+const notes = await Promise.all(
+  files.map(async (file) => {
+    const filePath = path.join(notesDir, file);
+    const raw = await fs.readFile(filePath, 'utf-8');
+    const { data } = matter(raw);
+    const slug = file.replace('.md', '');
+    return {
+      title: data.title ?? slug,
+      slug,
+    };
+  })
+);
+---
+
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Notes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/page.css" />
+  </head>
+  <body>
+    <div class="notes-layout">
+      
+      <!-- 🔻 Боковая панель -->
+      <aside class="notes-sidebar">
+        <video class="sidebar-video" autoplay muted loop playsinline>
+          <source src="/1.webm" type="video/webm" />
+          Your browser does not support the video tag.
+        </video>
+        <a href="/" class="nav-link">Index</a>
+        <a href="/guides" class="nav-link">Guides</a>
+        <a href="/writeups" class="nav-link">Writeups</a>
+        <a href="/other" class="nav-link">Other</a>
+      </aside>
+
+      <!-- 🔺 Основной контент -->
+      <main class="page-wrapper">
+        <div class="sticky-header">
+          <h1>Notes</h1>
+          <input id="search" type="text" placeholder="Поиск..." />
+        </div>
+        <div class="notes-scroll">
+          <ul id="notes-list">
+            {
+              notes.map(note => (
+                <li><a href={`/notes/${note.slug}`}>{note.title}</a></li>
+              ))
+            }
+          </ul>
+        </div>
+      </main>
+    </div>
+
+    <!-- 🔧 Поисковый скрипт -->
+    <script>
+      const input = document.getElementById('search');
+      const list = document.getElementById('notes-list');
+      const items = Array.from(list.children);
+
+      input.addEventListener('input', () => {
+        const q = input.value.toLowerCase();
+        list.innerHTML = '';
+        items.forEach(li => {
+          if (li.textContent.toLowerCase().includes(q)) {
+            list.appendChild(li);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
