@@ -1,13 +1,73 @@
 ---
-import { marked } from 'marked';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
+import remarkRehype from 'remark-rehype';
+import rehypePrettyCode from 'rehype-pretty-code';
+import rehypeStringify from 'rehype-stringify';
+
 const { content } = Astro.props;
 
-// Преобразуем ![[image.jpg]] → <img src="/n0tes/content/image.jpg" ...>
-const processed = content.replace(/\!\[\[(.+?)\]\]/g, (_, filename) => {
-  return `<img src="/n0tes/content/${filename}" alt="${filename}" />`;
+const withImages = content.replace(/\!\[\[(.+?)\]\]/g, (_, filename) => {
+  return `![](/n0tes/content/${filename})`;
 });
 
-const html = marked.parse(processed);
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkRehype)
+  .use(rehypePrettyCode, {
+    theme: 'dracula',
+    keepBackground: false,
+  })
+  .use(rehypeStringify);
+
+const result = await processor.process(withImages);
 ---
 
-<div class="markdown-content" set:html={html} />
+<div
+  class="markdown-content"
+  set:html={String(result)}
+/>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.markdown-content pre').forEach(pre => {
+      if (pre.parentElement.classList.contains('code-wrapper')) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-wrapper';
+
+      // Получаем язык из data-language или из класса pre
+      const lang = pre.getAttribute('data-language') || 
+                   [...pre.classList]
+                     .find(c => c.startsWith('language-'))?.replace('language-', '') || 
+                   'code';
+
+      // Создаём label с языком
+      const label = document.createElement('div');
+      label.className = 'code-language-label';
+      label.textContent = lang.toUpperCase();
+
+      // Создаём кнопку копирования
+      const button = document.createElement('button');
+      button.className = 'copy-button';
+      button.type = 'button';
+      button.textContent = 'Copy';
+
+      // Вставляем label, pre и кнопку внутрь wrapper
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(label);
+      wrapper.appendChild(pre);
+      wrapper.appendChild(button);
+
+      // Обработчик копирования
+      button.addEventListener('click', () => {
+        navigator.clipboard.writeText(pre.innerText).then(() => {
+          button.textContent = 'Copied!';
+          setTimeout(() => button.textContent = 'Copy', 1500);
+        });
+      });
+    });
+  });
+</script>

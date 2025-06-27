@@ -8,6 +8,65 @@ html, body {
   overflow: hidden;
 }
 
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+  background-color: #080808;
+  color: #fff;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+code {
+  font-family: 'Fira Code', monospace;
+}
+
+.code-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+  background-color: #080808;
+  border-left: 1px solid red;
+  padding-top: 1.8rem; /* чтобы место для лейбла */
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.code-language-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 8px;
+  background-color: red;
+  color: black;
+  font-family: monospace;
+  font-size: 0.75rem;
+  font-weight: bold;
+  user-select: none;
+  border-bottom-right-radius: 6px;
+}
+
+.copy-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #444;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  border-radius: 4px;
+  user-select: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.copy-button:hover {
+  opacity: 1;
+}
+
+
 .notes-layout {
   display: flex;
   height: 100vh;
