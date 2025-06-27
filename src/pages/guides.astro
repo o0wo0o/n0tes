@@ -33,13 +33,13 @@ const guides = await Promise.all(
     <div class="notes-layout">
       <aside class="notes-sidebar">
         <video class="sidebar-video" autoplay muted loop playsinline>
-          <source src="/1.webm" type="video/webm" />
+          <source src="/n0tes/1.webm" type="video/webm" />
         </video>
-        <a href="/" class="nav-link">Index</a>
-        <a href="/notes" class="nav-link">Notes</a>
-        <a href="/guides" class="nav-link">Guides</a>
-        <a href="/writeups" class="nav-link">Writeups</a>
-        <a href="/other" class="nav-link">Other</a>
+        <a href="/n0tes" class="nav-link">Index</a>
+        <a href="/n0tes/notes" class="nav-link">Notes</a>
+        <a href="/n0tes/guides" class="nav-link">Guides</a>
+        <a href="/n0tes/writeups" class="nav-link">Writeups</a>
+        <a href="/n0tes/other" class="nav-link">Other</a>
       </aside>
 
       <main class="page-wrapper">
@@ -51,7 +51,7 @@ const guides = await Promise.all(
           <ul id="notes-list">
             {
               guides.map(item => (
-                <li><a href={`/guides/${item.slug}`}>{item.title}</a></li>
+                <li><a href={`/n0tes/guides/${item.slug}`}>{item.title}</a></li>
               ))
             }
           </ul>
