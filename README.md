@@ -1,7 +1,7 @@
 # n0tes
 
 🕸️ Личный блог и заметки  
-🔗 → [https://github.com/o0wo0o/n0tes](https://github.com/o0wo0o/n0tes)
+🔗 → [https://o0wo0o.github.io/n0tes/](https://o0wo0o.github.io/n0tes/)
 
 ---
 
