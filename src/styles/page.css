@@ -29,6 +29,10 @@ code {
   padding-top: 1.8rem; /* чтобы место для лейбла */
   border-radius: 6px;
   overflow: hidden;
+
+  max-width: 900px;
+  width: 100%;  /* занимает всю ширину родителя */
+  margin-left: 0; /* без сдвигов */
 }
 
 .code-language-label {
@@ -65,7 +69,6 @@ code {
 .copy-button:hover {
   opacity: 1;
 }
-
 
 .notes-layout {
   display: flex;
@@ -165,6 +168,29 @@ code {
   padding: 30px;
 }
 
+/* Центрируем и ограничиваем ширину основного контента */
+.markdown-content {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Обнуляем маргины и задаём ширину для основных элементов */
+.markdown-content pre,
+.markdown-content p,
+.markdown-content img,
+.markdown-content ul,
+.markdown-content ol,
+.markdown-content blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ссылки на заметки */
 .notes-scroll ul {
   list-style: none;
   padding: 0;
@@ -175,7 +201,6 @@ code {
   margin-bottom: 14px;
 }
 
-/* Ссылки на заметки */
 .notes-scroll a {
   color: white;
   text-decoration: none;
@@ -196,5 +221,11 @@ code {
 
   .page-wrapper {
     margin: 20px;
+  }
+
+  .markdown-content {
+    max-width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
