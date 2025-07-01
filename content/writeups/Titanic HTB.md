@@ -1,6 +1,6 @@
 ---
 title: Titanic HTB
-date: 2025-06-25
+date: 2025-06-30
 ---
 
 # Разведка
@@ -468,6 +468,4 @@ EOF
 
 Ну или подставляем вместо _cp /root/root.txt /tmp_ то, что нравится вам --> забираем root.txt
 
-
-
-![[end.jpeg]]
+![[end.jpg]]

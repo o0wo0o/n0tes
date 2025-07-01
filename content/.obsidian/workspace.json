@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "writeups/Titanic HTB.md",
+                "file": "guides/Kali + Whonix-Gateway.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Titanic HTB"
+              "title": "Kali + Whonix-Gateway"
             }
           }
         ]
@@ -167,16 +167,20 @@
   },
   "active": "7547393d48bc4799",
   "lastOpenFiles": [
-    "end.jpeg",
     "writeups/Titanic HTB.md",
+    "whonixscreen2.png",
+    "guides/Kali + Whonix-Gateway.md",
+    "whonixscreen1.png",
+    "other/Test other.md",
+    "kalinetwork.png",
+    "whonixinst.png",
+    "images.jpg",
+    "end.jpg",
+    "end.jpeg",
     "titanic4.png",
     "titanic3.png",
     "titanic2.png",
-    "titanic1.png",
     "notes/Test note.md",
-    "db76d224cafa8d8ae6c5d3a8b94e7dafddf7c764.jpg",
-    "Без имени.jpg",
-    "images.jpg",
     "2025-06-25.md",
     "notes/Untitled.md",
     "notes/Untitled 1.md",
@@ -193,8 +197,6 @@
     "notes/Untitled 12.md",
     "notes/Untitled 13.md",
     "notes/Untitled 14.md",
-    "other/Test other.md",
-    "guides/Test guide.md",
     "Untitled.md",
     "guides/Test 1.md",
     "Welcome.md",

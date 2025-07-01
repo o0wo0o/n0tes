@@ -202,15 +202,22 @@ code {
 }
 
 .notes-scroll a {
-  color: white;
-  text-decoration: none;
-  border-bottom: 1px dashed red;
+  color: black;
+  background-color: white;
+  text-decoration: none; /* Убираем подчеркивание */
   font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.notes-scroll a:hover {
-  background-color: red;
-  color: black;
+.notes-scroll a:hover,
+.notes-scroll a:focus {
+  background-color: black;
+  color: white;
+  outline: none;
+  cursor: pointer;
 }
 
 /* Адаптивность */
@@ -228,4 +235,51 @@ code {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
+}
+
+/* Красный глитч для заголовков */
+@keyframes glitch {
+  0% {
+    text-shadow: 
+      2px 0 red, 
+      -2px 0 rgb(247, 247, 247);
+  }
+  20% {
+    text-shadow: 
+      -2px 0 red, 
+      2px 0 rgb(252, 252, 252);
+  }
+  40% {
+    text-shadow: 
+      2px 2px red, 
+      -2px -2px rgb(0, 0, 0);
+  }
+  60% {
+    text-shadow: 
+      -2px 2px red, 
+      2px -2px rgb(255, 255, 255);
+  }
+  80% {
+    text-shadow: 
+      2px 0 red, 
+      -2px 0 rgb(229, 255, 0);
+  }
+  100% {
+    text-shadow: 
+      -2px 0 red, 
+      2px 0 rgb(229, 255, 0);
+  }
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  color: red;
+  position: relative;
+  animation: glitch 1.5s infinite;
+  font-weight: 900;
+  user-select: none;
 }
