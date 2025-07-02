@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const contentDir = path.resolve('content');
-const publicDir = path.resolve('public/content');
+const publicDir = path.resolve('/public/content');
 
 function copyImages(dir = contentDir) {
   const files = fs.readdirSync(dir);
